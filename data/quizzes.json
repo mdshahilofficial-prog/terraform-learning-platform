@@ -1,0 +1,30 @@
+[
+  {
+    "id": "practice-1-depends-on",
+    "track": "Foundations",
+    "title": "Infrastructure Dependencies",
+    "scenario": "You have a configuration where Azure Function App (A) needs a storage account (B). Terraform handles this dependency automatically. Now you need to create a storage account *only after* a particular Key Vault exists and is fully populated, even though there's no direct data dependency between them. How do you enforce this?",
+    "options": [
+      {
+        "text": "A. Use the `depends_on` meta-argument on the storage account.",
+        "isCorrect": true,
+        "explanation": "Correct. `depends_on` creates an explicit dependency, telling Terraform that the storage account can only be created after the Key Vault is fully ready."
+      },
+      {
+        "text": "B. Reference a value from the Key Vault, like `id`, in a storage account property.",
+        "isCorrect": false,
+        "explanation": "Incorrect. This creates an *implicit* dependency based on data. It ensures the storage account isn't created before the Key Vault, but doesn't guarantee the KV is fully populated and ready if you just use its ID."
+      },
+      {
+        "text": "C. Use a `terraform -target` to apply the Key Vault first, then a full apply.",
+        "isCorrect": false,
+        "explanation": "Incorrect. While this *works*, using `-target` as a routine part of your workflow is not a recommended practice for managing dependencies. `depends_on` is the correct, declarative approach."
+      },
+      {
+        "text": "D. Chain your Terraform commands in a script: `tf apply kv.tf && tf apply sa.tf`.",
+        "isCorrect": false,
+        "explanation": "Incorrect. This goes against the core philosophy of Terraform. Your infrastructure should be defined declaratively in a single plan, allowing Terraform to calculate the dependency graph."
+      }
+    ]
+  }
+]

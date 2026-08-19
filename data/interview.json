@@ -1,0 +1,18 @@
+[
+  {
+    "id": "int-what-is-state",
+    "category": "Foundations",
+    "question": "What is Terraform state and why is it important?",
+    "answer": "Terraform state is a database, typically stored in a `terraform.tfstate` file, that maps the resources in your `.tf` configuration to real-world infrastructure in your cloud provider. It's critical for Terraform's core operations: `plan` and `apply`. It tracks resource IDs, attributes, and relationships. It is the 'source of truth' for your current infrastructure. When you run `plan`, Terraform compares your configuration to the state file to calculate necessary changes.",
+    "productionNote": "In production, always use a **remote state backend** like Azure Storage, AWS S3, or Terraform Cloud. This allows for locking (to prevent concurrent applies) and makes it easy for teams to collaborate.",
+    "followUp": "Follow-up question: what happens if the state file is corrupted or deleted?"
+  },
+  {
+    "id": "int-sensitive-state",
+    "category": "State",
+    "question": "If I mark an output value as `sensitive = true`, is it secure in the state file?",
+    "answer": "No, it is not secure in the state file. Marking an output as `sensitive = true` only prevents Terraform from printing its value to standard output (CLI) during a `plan` or `apply`. The value is still stored in the `terraform.tfstate` file as plain text. It can be easily read by anyone with access to that state file.",
+    "productionNote": "Therefore, the security of your state file is paramount. Use remote backends that support encryption at rest (like Azure Storage or S3) and carefully manage access controls to who can read the state. Avoid committing sensitive values as plain text to `.tfvars` or using them from environment variables if possible; instead, derive them from secure sources like Azure Key Vault.",
+    "followUp": "Follow-up question: what is the best practice for managing secrets in Terraform?"
+  }
+]

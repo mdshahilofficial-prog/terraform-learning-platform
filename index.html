@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform Learning Platform - Learn Terraform. Build with confidence.</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+
+    <header class="app-header">
+        <div class="container header-container">
+            <div class="brand">
+                <span class="logo-icon">T</span>
+                <span class="platform-name">Terraform <span class="accent-text">Academy</span></span>
+            </div>
+            
+            <nav class="desktop-nav">
+                <a href="#home" class="nav-link active" data-page="home">Home</a>
+                <a href="#learn" class="nav-link" data-page="learn">Learn</a>
+                <a href="#practice" class="nav-link" data-page="practice">Practice</a>
+                <a href="#interview" class="nav-link" data-page="interview">Interview</a>
+                <a href="#reference" class="nav-link" data-page="reference">Reference</a>
+            </nav>
+            
+            <div class="header-actions">
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+                    <span class="theme-icon light-icon">☀️</span>
+                    <span class="theme-icon dark-icon">🌙</span>
+                </button>
+                <div class="progress-info desktop-only">
+                    <span class="progress-label">Your Progress:</span>
+                    <span id="overall-progress-text">0%</span>
+                    <div class="progress-bar-mini">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <button class="mobile-nav-toggle desktop-only" aria-label="Toggle mobile menu">
+                    <span class="menu-icon"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="app-main">
+        <div id="home-page" class="app-page active">
+            <section class="hero-section">
+                <div class="container hero-container">
+                    <div class="hero-content">
+                        <span class="eyebrow">A premium learning path</span>
+                        <h1>Learn Terraform.<br> <span class="accent-text">Build with confidence.</span></h1>
+                        <p>Go from your first <code>.tf</code> file to architecting production-grade infrastructure on any cloud. A fully interactive, scenario-based learning platform.</p>
+                        <div class="hero-actions">
+                            <a href="#learn" class="btn btn-primary btn-large">Start Learning →</a>
+                            <a href="#practice" class="btn btn-secondary btn-large">Explore Concepts</a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">53+</span>
+                                <span class="stat-label">Concepts</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">8</span>
+                                <span class="stat-label">Learning Tracks</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">12+</span>
+                                <span class="stat-label">Scenarios</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-visual">
+                        <div class="visual-container">
+                            <div class="code-block hcl">
+                                <pre><code><span class="keyword">resource</span> <span class="type">"azurerm_resource_group"</span> <span class="name">"example"</span> {
+  name     = <span class="string">"rg-demo"</span>
+  location = <span class="string">"West Europe"</span>
+}</code></pre>
+                            </div>
+                            <div class="visual-arrow">↓</div>
+                            <div class="visual-card tfplan">Terraform <span class="bold">Plan</span></div>
+                            <div class="visual-arrow">↓</div>
+                            <div class="visual-card tfstate">Terraform <span class="bold">State</span></div>
+                            <div class="visual-arrow">↓</div>
+                            <div class="visual-card cloud">Cloud Infrastructure</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="roadmap-section">
+                <div class="container">
+                    <h2 class="text-center">Your Learning Roadmap</h2>
+                    <div class="roadmap-container">
+                        <div class="roadmap-track active" data-track-id="foundations">
+                            <div class="track-number">01</div>
+                            <h3>Foundations</h3>
+                            <div class="track-progress-info">
+                                <span class="lessons-completed">0 / 5 lessons</span>
+                                <div class="track-progress-bar">
+                                    <div class="track-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <a href="#learn/foundations" class="btn btn-sm btn-outline-primary">Explore</a>
+                        </div>
+                        <!-- More roadmap tracks will be dynamically populated here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <div id="learn-page" class="app-page">
+            <div class="container app-content-layout">
+                <aside class="lesson-sidebar">
+                    <h3>Learning Tracks</h3>
+                    <div id="lesson-navigation">
+                        <!-- Navigation links will be dynamically populated here -->
+                    </div>
+                </aside>
+                <article class="lesson-content">
+                    <div id="lesson-placeholder">
+                        <h2>Select a lesson to begin.</h2>
+                        <p>Choose a topic from the sidebar on the left or return to the <a href="#home">homepage</a> to view your roadmap.</p>
+                    </div>
+                    <div id="lesson-viewer" class="hidden">
+                        <div class="lesson-header">
+                            <span class="lesson-category">Foundations</span>
+                            <h1 id="lesson-title">Lesson Title</h1>
+                            <div class="lesson-meta">
+                                <span class="lesson-level badge badge-primary">Beginner</span>
+                                <button id="mark-complete-btn" class="btn btn-sm btn-outline-success">Mark as Complete ✓</button>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-body-section explanation">
+                            <h2>What is it?</h2>
+                            <p id="lesson-explanation"></p>
+                        </div>
+                        
+                        <div class="lesson-body-section mental-model">
+                            <h2>Mental Model</h2>
+                            <p id="lesson-mental-model" class="mental-model-visual"></p>
+                        </div>
+                        
+                        <div class="lesson-body-section example-code">
+                            <h2>Code Example</h2>
+                            <div class="code-editor-ui">
+                                <div class="editor-header">
+                                    <span class="tab-title">main.tf</span>
+                                    <button class="copy-btn icon-btn" aria-label="Copy code">📋</button>
+                                </div>
+                                <div class="editor-body">
+                                    <pre><code id="lesson-code" class="hcl"></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-body-section production-note">
+                            <h2>Production Note</h2>
+                            <div class="callout callout-production">
+                                <p id="lesson-production-note"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-footer-navigation">
+                            <button id="prev-lesson" class="btn btn-secondary">← Previous</button>
+                            <button id="next-lesson" class="btn btn-primary">Next Lesson →</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <div id="practice-page" class="app-page">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="eyebrow">Real-world scenarios</span>
+                    <h1>Interactive Practice</h1>
+                </div>
+                
+                <div id="quiz-container" class="quiz-container">
+                    <!-- Quiz questions will be dynamically populated here -->
+                </div>
+                
+            </div>
+        </div>
+        
+        <div id="interview-page" class="app-page">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="eyebrow">Prepare for your next role</span>
+                    <h1>Interview Preparation</h1>
+                </div>
+                
+                <div id="interview-container" class="interview-container">
+                    <!-- Interview questions will be dynamically populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="reference-page" class="app-page">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="eyebrow">Quick-look search</span>
+                    <h1>Terraform Reference</h1>
+                </div>
+                
+                <div class="reference-search">
+                    <input type="text" id="reference-search-input" placeholder="Search for for_each, count, state, moved block...">
+                    <button class="btn btn-primary">Search</button>
+                </div>
+                
+                <div id="reference-results" class="reference-results">
+                    <!-- Dynamic reference results -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="app-footer">
+        <div class="container footer-container">
+            <p>&copy; 2024 Terraform Learning Platform. Built with confidence for future cloud engineers.</p>
+        </div>
+    </footer>
+    
+    <script src="app.js"></script>
+</body>
+</html>

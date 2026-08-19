@@ -1,0 +1,55 @@
+[
+  {
+    "id": "foundations",
+    "title": "Foundations",
+    "lessons": [
+      {
+        "id": "what-is-terraform",
+        "title": "What is Terraform?",
+        "level": "Beginner",
+        "category": "Foundations",
+        "explanation": "Terraform is an infrastructure as code (IaC) tool that lets you build, change, and version cloud and on-premise resources safely and efficiently. It uses a declarative configuration language called HCL (HashiCorp Configuration Language).",
+        "why": "It allows teams to manage their infrastructure as if it were application code, enabling version control, testing, and continuous integration/deployment.",
+        "mentalModel": "HCL Config (Your Intent) → Terraform (The Engine) → State File (The Reality) → Cloud Provider (The Destination)",
+        "exampleCode": "# Main.tf\n\nprovider \"azurerm\" {\n  features {}\n}\n\nresource \"azurerm_resource_group\" \"example\" {\n  name     = \"example-resources\"\n  location = \"West Europe\"\n}",
+        "productionNote": "Always pin your provider versions to prevent breaking changes when you run a new Terraform init.",
+        "takeaway": "Terraform translates your desired state configuration into the API calls necessary to create it."
+      },
+      {
+        "id": "the-workflow",
+        "title": "The Core Workflow",
+        "level": "Beginner",
+        "category": "Foundations",
+        "explanation": "The core Terraform workflow consists of four main stages: Write, Init, Plan, and Apply. Understanding this cycle is critical.",
+        "why": "This process ensures that your infrastructure changes are safe, validated, and predictable.",
+        "mentalModel": "WRITE (.tf files) → INIT (download plugins) → PLAN (preview changes) → APPLY (make the changes) → STATE (update mapping)",
+        "commands": [
+          "terraform init",
+          "terraform plan",
+          "terraform apply"
+        ],
+        "exampleCode": "Step 1: Write a simple .tf file\nStep 2: Run 'terraform init'\nStep 3: Run 'terraform plan' to see what will happen\nStep 4: Run 'terraform apply' and confirm with 'yes'",
+        "productionNote": "In CI/CD, you should run 'terraform plan -out=tfplan' and then use 'terraform apply tfplan' to guarantee that the changes reviewed are exactly what get applied.",
+        "takeaway": "Init, Plan, Apply is the mantra of infrastructure deployment with Terraform."
+      }
+    ]
+  },
+  {
+    "id": "configuration",
+    "title": "Configuration",
+    "lessons": [
+      {
+        "id": "variables",
+        "title": "Input Variables",
+        "level": "Beginner",
+        "category": "Configuration",
+        "explanation": "Input variables serve as parameters for your Terraform modules, allowing you to reuse configurations across different environments without hard-coding values.",
+        "why": "Variables make your configurations dynamic and reusable. Without them, you'd need separate .tf files for every environment (dev, test, prod).",
+        "syntax": "variable \"variable_name\" {\n  type = string\n  description = \"...\"\n  default = \"...\"\n}",
+        "exampleCode": "variable \"resource_group_name\" {\n  description = \"Name of the resource group.\"\n  type        = string\n  default     = \"rg-default\"\n}\n\nresource \"azurerm_resource_group\" \"example\" {\n  name     = var.resource_group_name\n  location = \"West Europe\"\n}",
+        "productionNote": "Use validation blocks in your variables to enforce constraints early on. Example: ensure a VM name starts with 'vm-'.",
+        "takeaway": "Variables are parameters that make your modules reusable and dynamic."
+      }
+    ]
+  }
+]
