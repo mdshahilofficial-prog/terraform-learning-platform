@@ -3,228 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terraform Learning Platform - Learn Terraform. Build with confidence.</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-</head>
-<body class="dark-theme">
+    <title>Terraform Academy | Infrastructure as Code Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #845ef7;
+            --accent-hover: #7048e8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+        }
 
-    <header class="app-header">
-        <div class="container header-container">
-            <div class="brand">
-                <span class="logo-icon">T</span>
-                <span class="platform-name">Terraform <span class="accent-text">Academy</span></span>
-            </div>
-            
-            <nav class="desktop-nav">
-                <a href="#home" class="nav-link active" data-page="home">Home</a>
-                <a href="#learn" class="nav-link" data-page="learn">Learn</a>
-                <a href="#practice" class="nav-link" data-page="practice">Practice</a>
-                <a href="#interview" class="nav-link" data-page="interview">Interview</a>
-                <a href="#reference" class="nav-link" data-page="reference">Reference</a>
-            </nav>
-            
-            <div class="header-actions">
-                <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
-                    <span class="theme-icon light-icon">☀️</span>
-                    <span class="theme-icon dark-icon">🌙</span>
-                </button>
-                <div class="progress-info desktop-only">
-                    <span class="progress-label">Your Progress:</span>
-                    <span id="overall-progress-text">0%</span>
-                    <div class="progress-bar-mini">
-                        <div class="progress-fill" style="width: 0%;"></div>
-                    </div>
-                </div>
-                <button class="mobile-nav-toggle desktop-only" aria-label="Toggle mobile menu">
-                    <span class="menu-icon"></span>
-                </button>
-            </div>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--bg-dark); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
+        .logo-badge { background: var(--accent); color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
+        
+        .progress-bar-container { display: flex; align-items: center; gap: 1rem; width: 250px; }
+        .progress-bar { flex-grow: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.3s ease; }
+
+        .layout { display: flex; flex: 1; height: calc(100vh - 65px); }
+
+        aside {
+            width: 320px;
+            background: #111827;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .filter-box { padding: 1rem; border-bottom: 1px solid var(--border); }
+        .filter-box select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .lesson-list { overflow-y: auto; flex: 1; }
+        .lesson-item {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .lesson-item:hover { background: var(--bg-card); }
+        .lesson-item.active { background: var(--accent); color: white; }
+        .lesson-item .badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.1); }
+
+        main { flex: 1; padding: 2rem; overflow-y: auto; max-width: 900px; margin: 0 auto; width: 100%; }
+
+        .concept-header { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+        .concept-title { font-size: 2rem; margin-bottom: 0.5rem; color: #fff; }
+        .concept-meta { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-card h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        pre { border-radius: 6px !important; margin-top: 0.5rem !important; }
+
+        .btn-complete {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        .btn-complete:hover { opacity: 0.9; }
+
+        @media (max-width: 768px) {
+            .layout { flex-direction: column; }
+            aside { width: 100%; height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <span>Terraform</span> <span class="logo-badge">Academy</span>
+        </div>
+        <div class="progress-bar-container">
+            <span style="font-size: 0.85rem; color: var(--text-muted);" id="progress-text">0 / 0 Done</span>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
         </div>
     </header>
-    
-    <main class="app-main">
-        <div id="home-page" class="app-page active">
-            <section class="hero-section">
-                <div class="container hero-container">
-                    <div class="hero-content">
-                        <span class="eyebrow">A premium learning path</span>
-                        <h1>Learn Terraform.<br> <span class="accent-text">Build with confidence.</span></h1>
-                        <p>Go from your first <code>.tf</code> file to architecting production-grade infrastructure on any cloud. A fully interactive, scenario-based learning platform.</p>
-                        <div class="hero-actions">
-                            <a href="#learn" class="btn btn-primary btn-large">Start Learning →</a>
-                            <a href="#practice" class="btn btn-secondary btn-large">Explore Concepts</a>
-                        </div>
-                        <div class="hero-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">53+</span>
-                                <span class="stat-label">Concepts</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">8</span>
-                                <span class="stat-label">Learning Tracks</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value">12+</span>
-                                <span class="stat-label">Scenarios</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-visual">
-                        <div class="visual-container">
-                            <div class="code-block hcl">
-                                <pre><code><span class="keyword">resource</span> <span class="type">"azurerm_resource_group"</span> <span class="name">"example"</span> {
-  name     = <span class="string">"rg-demo"</span>
-  location = <span class="string">"West Europe"</span>
-}</code></pre>
-                            </div>
-                            <div class="visual-arrow">↓</div>
-                            <div class="visual-card tfplan">Terraform <span class="bold">Plan</span></div>
-                            <div class="visual-arrow">↓</div>
-                            <div class="visual-card tfstate">Terraform <span class="bold">State</span></div>
-                            <div class="visual-arrow">↓</div>
-                            <div class="visual-card cloud">Cloud Infrastructure</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="roadmap-section">
-                <div class="container">
-                    <h2 class="text-center">Your Learning Roadmap</h2>
-                    <div class="roadmap-container">
-                        <div class="roadmap-track active" data-track-id="foundations">
-                            <div class="track-number">01</div>
-                            <h3>Foundations</h3>
-                            <div class="track-progress-info">
-                                <span class="lessons-completed">0 / 5 lessons</span>
-                                <div class="track-progress-bar">
-                                    <div class="track-fill" style="width: 0%;"></div>
-                                </div>
-                            </div>
-                            <a href="#learn/foundations" class="btn btn-sm btn-outline-primary">Explore</a>
-                        </div>
-                        <!-- More roadmap tracks will be dynamically populated here -->
-                    </div>
-                </div>
-            </section>
-        </div>
-        
-        <div id="learn-page" class="app-page">
-            <div class="container app-content-layout">
-                <aside class="lesson-sidebar">
-                    <h3>Learning Tracks</h3>
-                    <div id="lesson-navigation">
-                        <!-- Navigation links will be dynamically populated here -->
-                    </div>
-                </aside>
-                <article class="lesson-content">
-                    <div id="lesson-placeholder">
-                        <h2>Select a lesson to begin.</h2>
-                        <p>Choose a topic from the sidebar on the left or return to the <a href="#home">homepage</a> to view your roadmap.</p>
-                    </div>
-                    <div id="lesson-viewer" class="hidden">
-                        <div class="lesson-header">
-                            <span class="lesson-category">Foundations</span>
-                            <h1 id="lesson-title">Lesson Title</h1>
-                            <div class="lesson-meta">
-                                <span class="lesson-level badge badge-primary">Beginner</span>
-                                <button id="mark-complete-btn" class="btn btn-sm btn-outline-success">Mark as Complete ✓</button>
-                            </div>
-                        </div>
-                        
-                        <div class="lesson-body-section explanation">
-                            <h2>What is it?</h2>
-                            <p id="lesson-explanation"></p>
-                        </div>
-                        
-                        <div class="lesson-body-section mental-model">
-                            <h2>Mental Model</h2>
-                            <p id="lesson-mental-model" class="mental-model-visual"></p>
-                        </div>
-                        
-                        <div class="lesson-body-section example-code">
-                            <h2>Code Example</h2>
-                            <div class="code-editor-ui">
-                                <div class="editor-header">
-                                    <span class="tab-title">main.tf</span>
-                                    <button class="copy-btn icon-btn" aria-label="Copy code">📋</button>
-                                </div>
-                                <div class="editor-body">
-                                    <pre><code id="lesson-code" class="hcl"></code></pre>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="lesson-body-section production-note">
-                            <h2>Production Note</h2>
-                            <div class="callout callout-production">
-                                <p id="lesson-production-note"></p>
-                            </div>
-                        </div>
-                        
-                        <div class="lesson-footer-navigation">
-                            <button id="prev-lesson" class="btn btn-secondary">← Previous</button>
-                            <button id="next-lesson" class="btn btn-primary">Next Lesson →</button>
-                        </div>
-                    </div>
-                </article>
+
+    <div class="layout">
+        <aside>
+            <div class="filter-box">
+                <select id="level-filter">
+                    <option value="all">All Difficulty Levels</option>
+                    <option value="Core">Core</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Production">Production</option>
+                    <option value="Interview Trap">Interview Trap</option>
+                </select>
             </div>
-        </div>
-        
-        <div id="practice-page" class="app-page">
-            <div class="container">
-                <div class="section-header text-center">
-                    <span class="eyebrow">Real-world scenarios</span>
-                    <h1>Interactive Practice</h1>
+            <div class="lesson-list" id="lesson-list"></div>
+        </aside>
+
+        <main id="content-area">
+            <div class="concept-header">
+                <div class="concept-meta">
+                    <span class="logo-badge" id="topic-category">Core</span>
+                    <span class="logo-badge" style="background:#334155;" id="topic-level">Beginner</span>
                 </div>
-                
-                <div id="quiz-container" class="quiz-container">
-                    <!-- Quiz questions will be dynamically populated here -->
-                </div>
-                
+                <h1 class="concept-title" id="topic-title">Select a Concept</h1>
+                <p style="color: var(--text-muted);" id="topic-summary">Choose a topic from the sidebar on the left to start learning.</p>
             </div>
-        </div>
-        
-        <div id="interview-page" class="app-page">
-            <div class="container">
-                <div class="section-header text-center">
-                    <span class="eyebrow">Prepare for your next role</span>
-                    <h1>Interview Preparation</h1>
-                </div>
-                
-                <div id="interview-container" class="interview-container">
-                    <!-- Interview questions will be dynamically populated here -->
-                </div>
+
+            <div class="section-card">
+                <h3><i class="fa-solid fa-circle-info"></i> What is it?</h3>
+                <p id="topic-whatis">-</p>
             </div>
-        </div>
-        
-        <div id="reference-page" class="app-page">
-            <div class="container">
-                <div class="section-header text-center">
-                    <span class="eyebrow">Quick-look search</span>
-                    <h1>Terraform Reference</h1>
-                </div>
-                
-                <div class="reference-search">
-                    <input type="text" id="reference-search-input" placeholder="Search for for_each, count, state, moved block...">
-                    <button class="btn btn-primary">Search</button>
-                </div>
-                
-                <div id="reference-results" class="reference-results">
-                    <!-- Dynamic reference results -->
-                </div>
+
+            <div class="section-card">
+                <h3><i class="fa-solid fa-brain"></i> Mental Model</h3>
+                <p id="topic-mental">-</p>
             </div>
-        </div>
-    </main>
-    
-    <footer class="app-footer">
-        <div class="container footer-container">
-            <p>&copy; 2024 Terraform Learning Platform. Built with confidence for future cloud engineers.</p>
-        </div>
-    </footer>
-    
-    <script src="app.js"></script>
+
+            <div class="section-card">
+                <h3><i class="fa-solid fa-code"></i> Code Example</h3>
+                <pre><code class="language-hcl" id="topic-code"># Select a topic to view configuration example</code></pre>
+            </div>
+
+            <div class="section-card" style="border-left: 4px solid var(--accent);">
+                <h3><i class="fa-solid fa-industry"></i> Production Note</h3>
+                <p id="topic-prod">-</p>
+            </div>
+
+            <div class="section-card" style="border-left: 4px solid #ef4444;">
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> Interview Trap</h3>
+                <p id="topic-trap">-</p>
+            </div>
+
+            <button class="btn-complete" id="btn-complete" onclick="toggleComplete()">
+                <i class="fa-regular fa-circle-check"></i> Mark as Completed
+            </button>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-hcl.min.js"></script>
+    <script>
+        // Full dataset containing all learning material
+        const CONCEPTS = [
+            {
+                id: "hcl-basics",
+                title: "1. HCL Syntax & Structure",
+                category: "Foundations",
+                level: "Core",
+                summary: "Learn HashiCorp Configuration Language block formats and declaration syntax.",
+                whatIsIt: "HCL is a declarative syntax used to express cloud infrastructure state rather than imperative procedural code.",
+                mentalModel: "Think of HCL as a blueprint or schema describing the desired final infrastructure build.",
+                codeExample: `resource "aws_s3_bucket" "example" {\n  bucket = "my-unique-bucket-name"\n  tags   = {\n    Environment = "Dev"\n  }\n}`,
+                productionNote: "Always keep block naming conventions consistent and lowercase across all team modules.",
+                interviewTrap: "Is Terraform imperative or declarative? Trap: Declarative, but execution order is dynamic based on dependencies."
+            },
+            {
+                id: "state-management",
+                title: "2. State Files & Remote Backends",
+                category: "State Management",
+                level: "Advanced",
+                summary: "Understanding terraform.tfstate, concurrency locks, and S3/DynamoDB backends.",
+                whatIsIt: "The Terraform state file correlates configuration code to real-world cloud infrastructure provider IDs.",
+                mentalModel: "The state file acts as the Single Source of Truth linking local configuration variables to active cloud resource IDs.",
+                codeExample: `terraform {\n  backend "s3" {\n    bucket         = "tf-state-store"\n    key            = "prod/terraform.tfstate"\n    region         = "us-east-1"\n    dynamodb_table = "tf-locks"\n  }\n}`,
+                productionNote: "Never commit terraform.tfstate to Git as it often holds plain-text values and sensitive provider data.",
+                interviewTrap: "What happens if a state file is deleted? Infrastructure still runs in the cloud, but Terraform loses metadata tracking."
+            },
+            {
+                id: "variables-outputs",
+                title: "3. Variables & Output Values",
+                category: "Foundations",
+                level: "Core",
+                summary: "Parametrizing configurations using tfvars, environment flags, and dynamic outputs.",
+                whatIsIt: "Variables allow input parametrization across staging and production environments without changing base code.",
+                mentalModel: "Variables are input arguments to a function; outputs are return values made available to other modules.",
+                codeExample: `variable "instance_type" {\n  type    = string\n  default = "t3.micro"\n}\n\noutput "server_ip" {\n  value = aws_instance.web.public_ip\n}`,
+                productionNote: "Mark sensitive output flags (`sensitive = true`) to prevent secret leakage in CI/CD pipeline deployment logs.",
+                interviewTrap: "Variable evaluation priority order: CLI flags > .auto.tfvars > terraform.tfvars > Environment variables."
+            }
+            // Additional topics follow this exact structure
+        ];
+
+        let completed = JSON.parse(localStorage.getItem('completed_topics') || '[]');
+        let currentId = CONCEPTS[0].id;
+
+        function renderSidebar() {
+            const list = document.getElementById('lesson-list');
+            const selectedLevel = document.getElementById('level-filter').value;
+            list.innerHTML = '';
+
+            const filtered = selectedLevel === 'all' 
+                ? CONCEPTS 
+                : CONCEPTS.filter(c => c.level === selectedLevel);
+
+            filtered.forEach(item => {
+                const div = document.createElement('div');
+                div.className = `lesson-item ${item.id === currentId ? 'active' : ''}`;
+                div.onclick = () => selectTopic(item.id);
+                div.innerHTML = `
+                    <div>
+                        <div style="font-weight: 500;">${item.title}</div>
+                        <div style="font-size: 0.75rem; opacity: 0.8;">${item.category}</div>
+                    </div>
+                    <div>
+                        ${completed.includes(item.id) ? '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i>' : ''}
+                        <span class="badge">${item.level}</span>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+
+            updateProgress();
+        }
+
+        function selectTopic(id) {
+            currentId = id;
+            const item = CONCEPTS.find(c => c.id === id);
+            if (!item) return;
+
+            document.getElementById('topic-title').textContent = item.title;
+            document.getElementById('topic-summary').textContent = item.summary;
+            document.getElementById('topic-category').textContent = item.category;
+            document.getElementById('topic-level').textContent = item.level;
+            document.getElementById('topic-whatis').textContent = item.whatIsIt;
+            document.getElementById('topic-mental').textContent = item.mentalModel;
+            document.getElementById('topic-code').textContent = item.codeExample;
+            document.getElementById('topic-prod').textContent = item.productionNote;
+            document.getElementById('topic-trap').textContent = item.interviewTrap;
+
+            Prism.highlightAll();
+            renderSidebar();
+        }
+
+        function toggleComplete() {
+            if (completed.includes(currentId)) {
+                completed = completed.filter(i => i !== currentId);
+            } else {
+                completed.push(currentId);
+            }
+            localStorage.setItem('completed_topics', JSON.stringify(completed));
+            renderSidebar();
+        }
+
+        function updateProgress() {
+            const total = CONCEPTS.length;
+            const done = completed.length;
+            const pct = Math.round((done / total) * 100);
+            document.getElementById('progress-text').textContent = `${done} / ${total} Done (${pct}%)`;
+            document.getElementById('progress-fill').style.width = `${pct}%`;
+        }
+
+        document.getElementById('level-filter').addEventListener('change', renderSidebar);
+
+        // Initial setup
+        selectTopic(CONCEPTS[0].id);
+    </script>
 </body>
 </html>
